@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "green"
+version = "0.1.0"
+description = "Test Task"
+authors = ["A.A. Toropov"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^3.0.0"
+whatsapp-api-client-python = "^0.0.44"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
