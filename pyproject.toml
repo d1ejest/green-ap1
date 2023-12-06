@@ -9,7 +9,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 flask = "^3.0.0"
-whatsapp-api-client-python = "^0.0.44"
 
 
 [build-system]

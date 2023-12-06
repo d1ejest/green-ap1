@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Вызов методов GREEN-API</title>
+</head>
+
+<body>
+<table width="100%" cellspacing="0" cellpadding="5">
+    <tr>
+        <td width="30%" valign="top">Получения текущих настроек аккаунта:
+            <p><label for="idInstance"></label>
+                <input type="text" id="idInstance" name="idInstance" placeholder="Введите уникальный номер инстанса" size="32"/></p>
+            <p><label for="apiTokenInstance"></label>
+                <input type="text" id="apiTokenInstance" name="apiTokenInstance" placeholder="Введите ключ доступа инстанса" size="32" maxlength="64"/></p>
+            <p>
+                <button onclick="run('/settings')" size="32">getSettings</button>
+            </p>
+            <p>
+                <button onclick="run('/state')" size="32">getStateInstance</button>
+            </p>
+
+            <p><label for="phoneNumber"></label>
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="77771234567" size="32" maxlength="11"/></p>
+            <p><label for="message"></label>
+                <textarea id="message" name="message" placeholder="Hello!" cols="32" rows="4" maxlength="512"></textarea>
+            </p>
+
+            <p>
+                <button onclick="run('/sendtxt')">sendMessage</button>
+            </p>
+
+
+            <p><label for="phoneNumber1"></label>
+                <input type="text" id="phoneNumber1" name="phoneNumber" placeholder="77771234567" size="32" maxlength="11"/></p>
+            <p><label for="url"></label>
+                <input type="text" id="url" name="url" placeholder="https://myweb.com/image.jpg" pattern="https:\/\/\w*+.*" size="32" maxlength="128"/></p>
+
+            <p>
+                <button onclick="run('/sendfile')">sendFileByUrl</button>
+            </p>
+        </td>
+        <td width="70%" valign="top">Ответ:
+            <p><label for="answer"></label>
+                <textarea id="answer" name="answer" cols="64" rows="25" maxlength="512" readonly></textarea></p>
+        </td>
+    </tr>
+</table>
+<script>
+    <!-- Дублируем номер с отправки текстовых сообщений -->
+    const phoneNumber = document.getElementById('phoneNumber')
+    const phoneNumber1 = document.getElementById('phoneNumber1')
+
+    phoneNumber.addEventListener('input', function (e) {
+        phoneNumber1.value = phoneNumber.value
+    })
+    <!-- Отправляем запросы во flask ответы записываем в ответ -->
+    function run(method) {
+        var idInstance = document.getElementById('idInstance').value;
+        var apiTokenInstance = document.getElementById('apiTokenInstance').value;
+        fetch(method, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: idInstance,
+                    token: apiTokenInstance
+                }),
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('answer').value = JSON.stringify(data);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+
+</html>
